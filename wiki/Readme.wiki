@@ -1,0 +1,45 @@
+smallseg -- 开源的，基于python语言开发的轻量级的中文分词工具包
+
+特点：可自定义词典、切割后返回登录词列表和未登录词列表、有一定的新词识别能力。
+
+用法：
+python版：
+
+{{{
+s3 = file("text.txt").read()
+words = [x.rstrip() for x in file("main.dic") ]
+
+
+from smallseg import SEG
+seg = SEG()
+print 'Load dict...'
+seg.set(words)
+print "Dict is OK."
+
+
+A,B = seg.cut(s3) #A是识别出的登录词列表，B是未登录词列表
+for t in A:
+    try:
+        print t.decode('utf-8')
+    except:
+        pass
+print "============================" 
+for t in B:
+    try:
+        print t.decode('utf-8')
+    except:
+        pass
+}}}
+
+Java版：
+{{{
+Seg seg = new Seg();
+seg.useDefaultDict();
+System.out.println(seg.cut("至于在这个程序中没有太大的意义, 这是Java提供的强制转化机制。草泥马"));
+
+stdout>>
+r:[至于, 在这, 程序, 没有, 太大, 意义, 这是, 提供, 强制, 转化, 机制]
+u:[Java, 草泥马, 泥马]
+
+(因为“草泥马”并没有在词库中)
+}}}
